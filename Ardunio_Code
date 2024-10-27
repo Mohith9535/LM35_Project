@@ -1,0 +1,53 @@
+#define LM35 A0
+#define RED 7
+#define GREEN 6
+#define BUZZER 2
+#define MOTOR 10
+int enB = 10;
+int in3 = 4;
+int in4 = 5;
+
+float lm_value;
+float tempc;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  pinMode(MOTOR, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  pinMode(enB, OUTPUT);
+}
+
+void loop() {
+  lm_value = analogRead(LM35);
+  tempc = (lm_value * 500) / 1023;
+  Serial.println(tempc);//Temperature in Celcius
+
+  //Condition
+  if (tempc < 50) {
+    digitalWrite(RED, HIGH);
+    digitalWrite(GREEN, LOW);
+    digitalWrite(BUZZER, HIGH);
+    delay(1000);
+    digitalWrite(BUZZER, LOW);
+    delay(1000);
+    digitalWrite(MOTOR, HIGH);
+    digitalWrite(in3, HIGH);
+    delay(3000);
+    digitalWrite(in4, LOW);
+    analogWrite(10, 200);
+    //delay(2000);
+  }
+  else {
+    digitalWrite(GREEN, HIGH);
+    digitalWrite(RED, LOW);
+    digitalWrite(BUZZER, LOW);
+    digitalWrite(MOTOR, LOW);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, LOW);
+  }
+  delay(100);
+}
